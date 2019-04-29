@@ -1,4 +1,6 @@
 # インスタンス変数へ代入された行を調べるコード
+# 制限事項: 多重代入で動かない 例: @a, @b = 1, 2
+## 「Node IVAR + 代入」 を検知すれば多重代入含めて全て検知できるかも？
 
 # TracePointで止めてASTを確認し、インスタンス変数への代入かどうかを調べる
 def tracer(target_class_name, target_instance_variable_name)
