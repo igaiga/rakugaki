@@ -3,11 +3,11 @@
 ## 「Node IVAR + 代入」 を検知すれば多重代入含めて全て検知できるかも？
 
 # TracePointで止めてASTを確認し、インスタンス変数への代入かどうかを調べる
-def tracer(target_class_name, target_instance_variable_name)
+def tracer(target_instance_variable_name:, target_class_name: nil)
   TracePoint.trace(:line) do |tp|
     # puts "[TP:#{tp.event}] #{tp.path}:#{tp.lineno} #{tp.method_id} #{tp.defined_class}"
     begin
-      line = File.open(tp.path, "r"){|f| f.readlines[tp.lineno - 1] } # もっと簡単にその行のコード取れないか？
+      line = File.open(tp.path, "r"){|f| f.readlines[tp.lineno - 1] } # TODO: ファイルがないクラスでは使えない
     rescue Errno::ENOENT => e
       # p "File.open error"
       # p tp
@@ -26,8 +26,10 @@ def tracer(target_class_name, target_instance_variable_name)
     next unless node.type == :IASGN
 
     # クラス名を調べる
-    target_class = Kernel.const_get(target_class_name)
-    next unless tp.self.is_a?(target_class)
+    if target_class_name
+      target_class = Kernel.const_get(target_class_name)
+      next unless tp.self.is_a?(target_class)
+    end
 
     # インスタンス変数名を調べる
     instance_variable_name = node.children.first
@@ -63,6 +65,6 @@ class User
   end
 end
 
-#tracer("User", "@hi")
-tracer("User", "@greeting")
+tracer(target_instance_variable_name: "@hi", target_class_name: "User")
+#tracer(target_instance_variable_name: "@greeting", target_class_name: "User")
 p User.new.hi
