@@ -6,7 +6,13 @@
 def tracer(target_class_name, target_instance_variable_name)
   TracePoint.trace(:line) do |tp|
     # puts "[TP:#{tp.event}] #{tp.path}:#{tp.lineno} #{tp.method_id} #{tp.defined_class}"
-    line = File.open(tp.path, "r"){|f| f.readlines[tp.lineno - 1] } # もっと簡単にその行のコード取れないか？
+    begin
+      line = File.open(tp.path, "r"){|f| f.readlines[tp.lineno - 1] } # もっと簡単にその行のコード取れないか？
+    rescue Errno::ENOENT => e
+      # p "File.open error"
+      # p tp
+      # p tp.path
+    end
     next unless line
 
     # AST取得
