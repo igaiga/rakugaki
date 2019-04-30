@@ -24,8 +24,10 @@ def tracer(target_class_name, target_instance_variable_name)
     next unless node.type == :IASGN
 
     # クラス名を調べる
-    target_class = Kernel.const_get(target_class_name)
-    next unless tp.self.is_a?(target_class)
+    if target_class_name
+      target_class = Kernel.const_get(target_class_name)
+      next unless tp.self.is_a?(target_class)
+    end
 
     # インスタンス変数名を調べる
     instance_variable_name = node.children.first
@@ -39,3 +41,4 @@ def tracer(target_class_name, target_instance_variable_name)
 end
 
 tracer("BooksController", "@books")
+#tracer(nil, "@books")
