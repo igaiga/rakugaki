@@ -1,1 +1,1 @@
-require 'lograge/sql/extension'
+# require 'lograge/sql/extension'
