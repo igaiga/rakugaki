@@ -1,1 +1,0 @@
-# require 'lograge/sql/extension'
