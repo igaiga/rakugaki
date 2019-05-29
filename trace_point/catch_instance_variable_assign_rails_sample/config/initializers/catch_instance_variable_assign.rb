@@ -40,5 +40,5 @@ def tracer(target_class_name, target_instance_variable_name)
   end
 end
 
-tracer("BooksController", "@books")
+#tracer("BooksController", "@books")
 #tracer(nil, "@books")

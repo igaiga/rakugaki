@@ -13,7 +13,7 @@
   </thead>
 
   <tbody>
-    <%= p(ObjectSpace.allocation_sourcefile(@books) => ObjectSpace.allocation_sourceline(@books)) %>
+    <%# p(ObjectSpace.allocation_sourcefile(@books) => ObjectSpace.allocation_sourceline(@books)) %>
     <% @books.each do |book| %>
       <tr>
         <td><%= book.title %></td>

@@ -5,8 +5,8 @@ class BooksController < ApplicationController
   # GET /books.json
   def index
     @books = Book.all
-    require 'objspace'
-    ObjectSpace.trace_object_allocations_start
+#    require 'objspace'
+#    ObjectSpace.trace_object_allocations_start
   end
 
   # GET /books/1
