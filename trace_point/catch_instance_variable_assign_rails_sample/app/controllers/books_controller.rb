@@ -7,6 +7,9 @@ class BooksController < ApplicationController
     @books = Book.all
 #    require 'objspace'
 #    ObjectSpace.trace_object_allocations_start
+    require 'tracer'
+    Tracer.add_filter{|event, file, line, id, binding, klass| file == "/box/github_repos/github.com/igaiga/rakugaki/trace_point/catch_instance_variable_assign_rails_sample/app/views/books/index.html.erb"}
+    Tracer.on
   end
 
   # GET /books/1
